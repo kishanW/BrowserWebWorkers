@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="site.js"></script>
+</head>
+<body>
+    <div id="connectionBadge">
+
+    </div>
+
+    <style>
+        #connectionBadge{
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        #connectionBadge{
+            background: red;
+        }
+        #connectionBadge[online='true']{
+            background: green;
+        }
+        
+    </style>
+
+    <h1>actions</h1>
+    <input type="text" name="messageInput" id="messageInput" placeholder="Your message">
+    <button id="sendmessage">Post message</button>
+    &nbsp;
+    <button id="checkconnection">Check connection</button>
+    <hr>
+
+    <h1>messages | <a href="#" id="clearmessages">Clear messages</a></h1>
+    <ul id="messages"></ul>
+
+    
+</body>
+</html>
