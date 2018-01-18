@@ -6,6 +6,20 @@ $(document).ready(function(){
         ww.AddMessage("web worker is supported");
 
         var myWorker = new Worker('worker.js');
+        var queueworker = new Worker('queueworker.js');
+
+        queueworker.onmessage = function (e) {
+            console.log('Message received from worker');
+            console.log(e.data);
+
+            var message = e.data[0];
+            var callback = e.data[1];
+
+            ww.AddMessage("<b>" + message + "</b>")
+        }
+        window.queueworker = queueworker;
+
+
         myWorker.onmessage = function (e) {
             console.log('Message received from worker');
             console.log(e.data);            
@@ -33,9 +47,9 @@ $(document).ready(function(){
     }
 
 
-    window.setInterval(function(){
-        window.myworker.postMessage(["checkconnection", "new message", "SetConnectionBadge"]);
-    }, 2500);
+    // window.setInterval(function(){
+    //     window.myworker.postMessage(["checkconnection", "new message", "SetConnectionBadge"]);
+    // }, 2500);
 });
 
 ww.SetConnectionBadge = function(status){
@@ -75,4 +89,12 @@ $(document).on("click", "#checkconnection", function () {
     window.setTimeout(500);
 
     window.myworker.postMessage(["checkconnection", "new message", "SetConnectionBadge"]);
+});
+
+
+$(document).on("click", "#togglequeue", function () {
+    ww.AddMessage("toggling queue");
+    window.setTimeout(500);
+
+    window.queueworker.postMessage(["toggleprocess", true, "SetConnectionBadge"]);
 });
