@@ -82,6 +82,8 @@ $(document).on("click", "#sendmessage", function(){
 
     var messageToSend = $("#messageInput").val();
     window.myworker.postMessage(["postmessage", messageToSend, "AddMessage"]);
+
+    $("#messageInput").val("");
 });
 
 $(document).on("click", "#checkconnection", function () {
