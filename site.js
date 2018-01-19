@@ -62,7 +62,7 @@ ww.SetConnectionBadge = function(status){
 
 ww.AddMessage = function(messageString){
     var messageList = $("#messages");
-    var newMessage = $("<li>" + messageString + "</li>");
+    var newMessage = $("<li class='list-group-item'>" + messageString + "</li>");
 
     messageList.prepend(newMessage);
 }

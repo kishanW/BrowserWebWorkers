@@ -22,3 +22,9 @@
     display: inline-block;
     width: 100%;
 }
+
+
+#messages{
+    max-height: 400px;
+    overflow: auto;
+}
