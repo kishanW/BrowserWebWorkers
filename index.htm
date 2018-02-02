@@ -39,7 +39,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1>Web workers</h1>
+                <h1 class="display-4">Web workers</h1>
             </div>
         </div>
 
@@ -51,6 +51,11 @@
                         <h5 class="card-title">Is the app online?</h5>
                         <p class="card-text">You can click the button below to see if the app is online</p>
                         <a href="#" id="checkconnection" class="btn btn-secondary">Check Connection</a>
+                        <hr>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="autonetworkcheck">
+                            <label class="custom-control-label" for="autonetworkcheck">Auto Check</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,7 +91,7 @@
                         clearmessages
                     </a>
                 </div>
-                    <ul id="messages" class="list-group"></ul>
+                <ul id="messages" class="list-group"></ul>
             </div>
         </div>
     </div>

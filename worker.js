@@ -1,3 +1,8 @@
+var workerSpace = {
+    IsAutoCheckOn : false,
+    AutoNetworkCheckInterval: {}
+};
+
 onmessage = function (e) {
     var requestType = e.data[0];
     var message = e.data[1];
@@ -9,6 +14,22 @@ onmessage = function (e) {
         var postbackMsg = "We are " + (isOnline ? "Online" : "Offline");
         console.log(postbackMsg);
         PostBackMessage(isOnline, callback);
+    }
+    if (requestType === "autoconnectioncheck") {
+        workerSpace.IsAutoCheckOn = !workerSpace.IsAutoCheckOn;
+        if (!workerSpace.IsAutoCheckOn)
+        {
+            clearInterval(workerSpace.AutoNetworkCheckInterval);
+            PostBackMessage("Stopped auto network check", "AddMessage");
+            return;
+        }
+
+        workerSpace.AutoNetworkCheckInterval = setInterval(function () {
+            var isOnline = self.navigator.onLine;
+            var postbackMsg = "We are " + (isOnline ? "Online" : "Offline");
+            console.log(postbackMsg);
+            PostBackMessage(isOnline, callback);
+        }, 500)        
     }
     else if(requestType === "postmessage")
     {
@@ -27,5 +48,3 @@ onmessage = function (e) {
 function PostBackMessage(message, callback){
     postMessage([message, callback]);
 }
-
-

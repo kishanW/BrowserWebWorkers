@@ -45,11 +45,6 @@ $(document).ready(function(){
         }
         window.myworker = myWorker;
     }
-
-
-    // window.setInterval(function(){
-    //     window.myworker.postMessage(["checkconnection", "new message", "SetConnectionBadge"]);
-    // }, 2500);
 });
 
 ww.SetConnectionBadge = function(status){
@@ -99,4 +94,9 @@ $(document).on("click", "#togglequeue", function () {
     window.setTimeout(500);
 
     window.queueworker.postMessage(["toggleprocess", true, "SetConnectionBadge"]);
+});
+
+$(document).on("change", "#autonetworkcheck", function(){
+    //toggle the auto network check
+    window.myworker.postMessage(["autoconnectioncheck", "new message", "SetConnectionBadge"]);
 });
