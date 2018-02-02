@@ -1,8 +1,7 @@
 ww = {};
 
-$(document).ready(function(){
-    if(window.Worker)
-    {
+$(document).ready(function () {
+    if (window.Worker) {
         ww.AddMessage("web worker is supported");
 
         var myWorker = new Worker('worker.js');
@@ -22,24 +21,18 @@ $(document).ready(function(){
 
         myWorker.onmessage = function (e) {
             console.log('Message received from worker');
-            console.log(e.data);            
+            console.log(e.data);
 
             var message = e.data[0];
             var callback = e.data[1];
 
-            if (callback)
-            {
-                if (callback === "AddMessage")
-                {
+            if (callback) {
+                if (callback === "AddMessage") {
                     ww.AddMessage(message);
-                }
-                else if (callback === "SetConnectionBadge")
-                {
+                } else if (callback === "SetConnectionBadge") {
                     ww.SetConnectionBadge(message);
-                }                
-            }
-            else
-            {
+                }
+            } else {
                 ww.AddMessage("<b>" + e.data + "</b>")
             }
         }
@@ -47,7 +40,7 @@ $(document).ready(function(){
     }
 });
 
-ww.SetConnectionBadge = function(status){
+ww.SetConnectionBadge = function (status) {
     var badge = $("#connectionBadge");
     badge.attr("online", status);
 
@@ -55,23 +48,23 @@ ww.SetConnectionBadge = function(status){
 }
 
 
-ww.AddMessage = function(messageString){
+ww.AddMessage = function (messageString) {
     var messageList = $("#messages");
     var newMessage = $("<li class='list-group-item'>" + messageString + "</li>");
 
     messageList.prepend(newMessage);
 }
 
-$(document).on("click", "#clearmessages", function(){
+$(document).on("click", "#clearmessages", function () {
     var messageList = $("#messages");
-    messageList.children().each(function(){
-        $(this).slideUp(function(){
+    messageList.children().each(function () {
+        $(this).slideUp(function () {
             $(this).remove();
         });
     });
 });
 
-$(document).on("click", "#sendmessage", function(){
+$(document).on("click", "#sendmessage", function () {
     ww.AddMessage("sending message");
     window.setTimeout(500);
 
@@ -96,7 +89,18 @@ $(document).on("click", "#togglequeue", function () {
     window.queueworker.postMessage(["toggleprocess", true, "SetConnectionBadge"]);
 });
 
-$(document).on("change", "#autonetworkcheck", function(){
-    //toggle the auto network check
+$(document).on("change", "#autonetworkcheck", function () {
     window.myworker.postMessage(["autoconnectioncheck", "new message", "SetConnectionBadge"]);
+});
+
+$(document).on("click", "#wwQueueHugeJob", function () {
+    window.myworker.postMessage(["hugetask", "new message", "AddMessage"]);
+});
+
+$(document).on("click", "#nonWorkerJobQueueToggle", function () {
+    ww.AddMessage("starting non web worker js task ");
+    for (var i = 0; i < 1000000000; i++) {
+        Math.random();
+    }
+    ww.AddMessage("completed non web worker js task");
 });

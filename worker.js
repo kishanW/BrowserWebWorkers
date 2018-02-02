@@ -1,5 +1,5 @@
 var workerSpace = {
-    IsAutoCheckOn : false,
+    IsAutoCheckOn: false,
     AutoNetworkCheckInterval: {}
 };
 
@@ -8,17 +8,15 @@ onmessage = function (e) {
     var message = e.data[1];
     var callback = e.data[2];
 
-    if (requestType === "checkconnection")
-    {   
-        var isOnline = self.navigator.onLine;       
+    if (requestType === "checkconnection") {
+        var isOnline = self.navigator.onLine;
         var postbackMsg = "We are " + (isOnline ? "Online" : "Offline");
         console.log(postbackMsg);
         PostBackMessage(isOnline, callback);
     }
     if (requestType === "autoconnectioncheck") {
         workerSpace.IsAutoCheckOn = !workerSpace.IsAutoCheckOn;
-        if (!workerSpace.IsAutoCheckOn)
-        {
+        if (!workerSpace.IsAutoCheckOn) {
             clearInterval(workerSpace.AutoNetworkCheckInterval);
             PostBackMessage("Stopped auto network check", "AddMessage");
             return;
@@ -29,22 +27,30 @@ onmessage = function (e) {
             var postbackMsg = "We are " + (isOnline ? "Online" : "Offline");
             console.log(postbackMsg);
             PostBackMessage(isOnline, callback);
-        }, 500)        
-    }
-    else if(requestType === "postmessage")
-    {
+        }, 500)
+    } else if (requestType === "postmessage") {
         console.log("message received:");
         console.log(message);
         console.log("\n\n");
         var postbackMsg = "message received --- " + message;
         PostBackMessage(postbackMsg, callback);
-    }   
-    
-    
-    
+    } else if (requestType === "hugetask") {
+        PostBackMessage("worker.js - starting huge task", callback);
+        console.log("worker.js - starting huge task");
+        for (var i = 0; i < 1000000000; i++) {
+            Math.random();
+            //PostBackMessage("worker.js - status - " + i, callback);
+        }
+        console.log("worker.js - huge task done.");
+        console.log("\n\n");
+        var postbackMsg = "worker.js completed huge task";
+        PostBackMessage(postbackMsg, callback);
+    }
+
+
 }
 
 
-function PostBackMessage(message, callback){
+function PostBackMessage(message, callback) {
     postMessage([message, callback]);
 }
