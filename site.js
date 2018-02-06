@@ -1,4 +1,4 @@
-ww = {};
+var ww = {};
 
 $(document).ready(function () {
     if (window.Worker) {
@@ -38,6 +38,9 @@ $(document).ready(function () {
         }
         window.myworker = myWorker;
     }
+
+
+    ww.AddOfflineSupport();
 });
 
 ww.SetConnectionBadge = function (status) {
@@ -104,3 +107,16 @@ $(document).on("click", "#nonWorkerJobQueueToggle", function () {
     }
     ww.AddMessage("completed non web worker js task");
 });
+
+ww.AddOfflineSupport = function(){
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/offlineworker.js')
+            .then(function () { 
+                console.log("Service Worker Registered"); 
+            });
+    }
+    else{
+        console.log("Cannot add offline support - service worker not supported.")
+    }
+}
